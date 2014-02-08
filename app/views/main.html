@@ -1,0 +1,27 @@
+<div class='wrap'>
+	<div class='row'>
+		<h1>Battery History</h1>
+	</div>
+	<div class='row'>
+		<section id='new'>
+			<div class='medium primary btn' ng-click='createBattery()'><a>New</a></div>
+		</section>
+		<section id='existing'>
+			<form role='form'>
+				<fieldset>
+					<div class='field'>
+						<label for='battery'>Battery #</label>
+						<div class='picker'>
+							<select ng-options='b.number for b in batteries' ng-model='battery' />
+						</div>
+					</div>
+
+					<div class='medium success btn' ng-click='onCharge()'><a>On Charge</a></div>
+					<div class='medium danger btn' ng-click='offCharge()'><a>Off Charge</a></div>
+					<div class='medium primary btn' ng-click='addEvent()'><a>Add Event</a></div>
+					<div class='medium info btn' ng-click='viewHistory()'><a>ViewHistory</a></div>
+				</fieldset>
+			</form>
+		</section>
+	</div>
+</div>

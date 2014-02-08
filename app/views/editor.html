@@ -1,0 +1,56 @@
+<div class='wrap'>
+	<div class='row'>
+		<h1>Edit History</h1>
+	</div>
+	<div class='row'>
+		<form>
+			<label for='batteryNumber'>Working On #</label>
+			<div class='field'>
+				<input name='batteryNumber' class='input' type='number' placeholder='Battery Number...' ng-model='model.number' />
+			</div>
+			<div class='field'>
+				<select name='batteryType' ng-options='t for t in types' ng-model='model.type' />
+				<input name='batteryString' ng-model='model.string' />
+			</div>
+			<div class='field'>
+				<label class='radio' for='state-new'>
+					<input type='radio' name='state' id='state-new' ng-model='model.state' value='new' /> 
+					<span></span> New
+				</label>
+				<label class='radio' for='state-new'>
+					<input type='radio' name='state' id='state-retire' ng-model='model.state' value='retire' />
+					<span></span> Retire
+				</label>
+				<label class='radio' for='state-on'>
+					<input type='radio' name='state' id='state-on' ng-model='model.state' value='onCharge' />
+					<span></span> 1 On Charge
+				</label>
+				<label class='radio' for='state-off'>
+					<input type='radio' name='state' id='state-off' ng-model='model.state' value='offCharge' />
+					<span></span> Off Charge
+				</label>
+				<label class='radio' for='state-install'>
+					<input type='radio' name='state' id='state-install' ng-model='model.state' value='install' />
+					<span></span> Install
+				</label>
+				<label class='radio' for=state-remove'>
+					<input type='radio' name='state' id='state-remove' ng-model='model.state' value='remove' />
+					<span></span> Remove
+				</label>
+			</div>
+			<div class='field'>
+				<label for='voltage'>Measured</label>
+				<input name='voltage' type='number' ng-model='model.voltage' /> volts
+			</div>
+			<div class='field'>
+				<label for='date'>Date</label>
+				<input type='date' ng-model='model.date' />
+			</div>
+			<div class='field'>
+				<label for='location'>Location</label>
+				<input type='text' name='location' ng-model='model.location1' />
+			</div>
+			<div class='medium primary btn'><a ng-click='save()'>Save</a></div>
+		</form>
+	</div>
+</div>
