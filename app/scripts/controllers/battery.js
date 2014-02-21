@@ -1,14 +1,8 @@
 'use strict';
 
 angular.module('batteryHistoryApp')
-  .controller('BatteryCtrl', function ($scope, Battery) {
-	$scope.model = new Battery();
-	$scope.types = [
-	  'S',
-	  'LIB'
-	  ];
-
-	$scope.save = function() {
-		$scope.model.$save();
-	};
+  .controller('BatteryCtrl', function ($scope, Battery, Message, $routeParams) {
+	$scope.battery = null;
+	// Pull all batteries from server.
+	$scope.batteries = Battery.query();
   });

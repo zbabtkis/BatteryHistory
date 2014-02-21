@@ -2,53 +2,53 @@
 	<div class='row'>
 		<h1>Edit History</h1>
 	</div>
-	<div class='row'>
+	<div class='row' ng-controller='HistoryCtrl'>
 		<form>
 			<label for='batteryNumber'>Working On #</label>
 			<div class='field'>
-				<input name='batteryNumber' class='input' type='number' placeholder='Battery Number...' ng-model='model.number' />
+				<input name='batteryNumber' class='input' type='number' placeholder='Battery Number...' ng-model='battery.number' />
 			</div>
 			<div class='field'>
-				<select name='batteryType' ng-options='t for t in types' ng-model='model.type' />
+				<select name='batteryType' ng-options='t for t in types' ng-model='battery.type' />
 				<input name='batteryString' ng-model='model.string' />
 			</div>
 			<div class='field'>
 				<label class='radio' for='state-new'>
-					<input type='radio' name='state' id='state-new' ng-model='model.state' value='new' /> 
+					<input type='radio' name='state' id='state-new' ng-model='battery.state' value='new' ng-checked='battery.isNew' ng-disabled='!battery.isNew'/> 
 					<span></span> New
 				</label>
-				<label class='radio' for='state-new'>
-					<input type='radio' name='state' id='state-retire' ng-model='model.state' value='retire' />
+				<label class='radio' for='state-new' >
+					<input type='radio' name='state' id='state-retire' ng-model='battery.state' value='retire' ng-disabled='!battery.isNew' />
 					<span></span> Retire
 				</label>
 				<label class='radio' for='state-on'>
-					<input type='radio' name='state' id='state-on' ng-model='model.state' value='onCharge' />
+					<input type='radio' name='state' id='state-on' ng-model='battery.state' value='onCharge' ng-disabled='!battery.isNew'/>
 					<span></span> 1 On Charge
 				</label>
 				<label class='radio' for='state-off'>
-					<input type='radio' name='state' id='state-off' ng-model='model.state' value='offCharge' />
+					<input type='radio' name='state' id='state-off' ng-model='battery.state' value='offCharge' ng-disabled='!battery.isNew'/>
 					<span></span> Off Charge
 				</label>
 				<label class='radio' for='state-install'>
-					<input type='radio' name='state' id='state-install' ng-model='model.state' value='install' />
+					<input type='radio' name='state' id='state-install' ng-model='battery.state' value='install' ng-disabled='!battery.isNew'/>
 					<span></span> Install
 				</label>
 				<label class='radio' for=state-remove'>
-					<input type='radio' name='state' id='state-remove' ng-model='model.state' value='remove' />
+					<input type='radio' name='state' id='state-remove' ng-model='battery.state' value='remove' ng-disabled='!battery.isNew'/>
 					<span></span> Remove
 				</label>
 			</div>
 			<div class='field'>
 				<label for='voltage'>Measured</label>
-				<input name='voltage' type='number' ng-model='model.voltage' /> volts
+				<input name='voltage' type='number' ng-model='battery.voltage' /> volts
 			</div>
 			<div class='field'>
 				<label for='date'>Date</label>
-				<input type='date' ng-model='model.date' />
+				<input type='date' ng-model='battery.date' />
 			</div>
 			<div class='field'>
 				<label for='location'>Location</label>
-				<input type='text' name='location' ng-model='model.location1' />
+				<input type='text' name='location' ng-model='battery.location1' />
 			</div>
 			<div class='medium primary btn'><a ng-click='save()'>Save</a></div>
 		</form>

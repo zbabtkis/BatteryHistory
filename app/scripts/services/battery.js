@@ -2,5 +2,5 @@
 
 angular.module('batteryHistoryApp')
   .factory('Battery', function ($resource) {
-	return $resource('/api/batteries');
+	return $resource('/api/batteries/:id', {id: "@number"});
   });

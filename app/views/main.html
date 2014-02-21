@@ -4,9 +4,11 @@
 	</div>
 	<div class='row'>
 		<section id='new'>
-			<div class='medium primary btn' ng-click='createBattery()'><a>New</a></div>
+		<div class='medium primary btn'>
+			<a href='#/batteries/history/add'>New</a>
+		</div>
 		</section>
-		<section id='existing'>
+		<section id='existing' ng-controller='BatteryCtrl'>
 			<form role='form'>
 				<fieldset>
 					<div class='field'>
@@ -15,11 +17,16 @@
 							<select ng-options='b.number for b in batteries' ng-model='battery' />
 						</div>
 					</div>
+					<div ng-controller='HistoryCtrl'>
+						<span ng-if='lastEvent.onCharge' ng-class='{primary: lastEvent.onCharge, danger: !lastEvent.onCharge}' class='label'>{{isCharging()}}</span>
 
-					<div class='medium success btn' ng-click='onCharge()'><a>On Charge</a></div>
-					<div class='medium danger btn' ng-click='offCharge()'><a>Off Charge</a></div>
-					<div class='medium primary btn' ng-click='addEvent()'><a>Add Event</a></div>
-					<div class='medium info btn' ng-click='viewHistory()'><a>ViewHistory</a></div>
+						<div class='medium success btn' ng-click='onCharge()'><a>On Charge</a></div>
+						<div class='medium danger btn' ng-click='offCharge()'><a>Off Charge</a></div>
+						<div class='medium primary btn'>
+							<a ng-href='#/batteries/history/add/{{battery.number}}'>Add Event</a>
+						</div>
+						<div class='medium info btn' ng-click='viewHistory()'><a>ViewHistory</a></div>
+					</div>
 				</fieldset>
 			</form>
 		</section>

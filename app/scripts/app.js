@@ -13,88 +13,83 @@ angular.module('batteryHistoryApp', [
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       }) 
-			.when('/batteries', {
-				templateUrl: 'views/battery-list.html',
-				controller: 'BatteriesCtrl'
-			})
-			.when('/batteries/add', {
-				templateUrl: 'views/editor.html',
-				controller: 'BatteryCtrl'
-			})
-			.when('/batteries/:batteryId', {
-				templateUrl: 'views/battery-view.html',
-				controller: 'BatteryCtrl'
-			})
+		.when('/batteries', {
+			templateUrl: 'views/battery-list.html',
+			controller: 'BatteriesCtrl'
+		})
+		.when('/batteries/history/add/:batteryId?', {
+			templateUrl: 'views/editor.html',
+			controller: 'BatteryCtrl'
+		})
+		.when('/batteries/:batteryId', {
+			templateUrl: 'views/battery-view.html',
+			controller: 'BatteryCtrl'
+		})
       .otherwise({
         redirectTo: '/'
       });
   });
 
 angular.module('batteryHistoryAppDev', ['batteryHistoryApp', 'ngMockE2E'])
-	.run(function($httpBackend) {
-		var Batteries = [
-			{
-				number: 1,
-				type: 'S',
-				info: "Some info about it"
-			}, {
-				number: 2,
-				type: 'LIB',
-				info: "Just some stuff"
+	.run(function($httpBackend, $rootScope, DB) {
+		function _parseParams(urlStr) {
+			var paramstr = urlStr.split('?')[1]
+			  , params
+			  , obj = {};
+
+			if(paramstr) {
+				params = paramstr.split('&');
+
+				params.forEach(function(param) {
+					var pair = param.split('=');
+					obj[pair[0]] = pair[1];
+				});
 			}
-		];
 
-		var History = [
-			[
-				{
-					id: 23,
-					batNum: 1,
-					op: -1,
-					volt: 24000,
-					date: 1391809843943,
-					location: 1,
-					locString: 'GVDA',
-					description: "Some longer info"	
-				}, {
-					id: 21,
-					batNum: 1,
-					op: 1,
-					volt: 18000,
-					date: 1391809932034,
-					location: 2,
-					locString: 'WLA',
-					description: "More info here..."
-				}
-			], [
-				{
-					id: 15,
-					batNum: 2,
-					op: 1,
-					volt: 120000,
-					date: 1391809979141,
-					location: 3,
-					locString: 'BVDA',
-					description: "More info here..."
-				}, {
-					id: 14,
-					batNum: 2,
-					op: -1,
-					volt: 100000,
-					date: 1391809932034,
-					location: 3,
-					locString: 'BVDA',
-					description: "Finally... done"
-				}
-			]
-		];
-
+			return obj;
+		}
+			
 		$httpBackend.whenGET('/api/batteries')
-			.respond(Batteries);
+			.respond(function() {
+				return [200, DB.getBattery(), {}];
+			});
 
-		$httpBackend.whenGET('/api/batteries/:batteryId')
+		$httpBackend.whenPOST('/api/batteries')
+			.respond(function(method, url, data) {
+				DB.saveBattery(angular.fromJson(data));
+				return [200];
+			});
+
+		$httpBackend.whenPOST(/\/api\/batteries\/[0-9]+/)
+			.respond(function(method, url, data) {
+				var id = parseInt(url.split('/')[3]);
+
+				DB.saveBattery(angular.fromJson(data), id);
+
+				return [200];
+			});
+
+		$httpBackend.whenGET(/\/api\/batteries\/[0-9]+/)
 			.respond(function(method, url, data, headers) {
-				return batteries[1];
-				console.log(arguments);
+				var id = parseInt(url.split('/')[3]);
+
+				var battery = DB.getBattery({number: id});
+				return [200, battery, {}];	
+			});
+
+		$httpBackend.whenGET(/\/api\/history(.*)/)
+			.respond(function(method, url, data) {
+				var params = _parseParams(url);
+				console.log(params);
+				var history = DB.getHistory(params);
+				return [200, history, {}];
+			});
+
+		$httpBackend.whenPOST(/\/api\/history(.*)/)
+			.respond(function(method, url, data) {
+				var params = _parseParams(url);
+
+				console.log(params);
 			});
 
 		$httpBackend.whenGET(/^views\//).passThrough();
